@@ -9,26 +9,26 @@ type Response struct {
 	Data    interface{} `json:"data"`
 }
 
-type EmptyObj struct {}
+type EmptyObj struct{}
 
-func BuildResponse(status bool, message string, data interface{}) Response  {
+func BuildResponse(status bool, message string, data interface{}) Response {
 	res := Response{
-		Status: status,
+		Status:  status,
 		Message: message,
-		Error: nil,
-		Data: data,
+		Error:   nil,
+		Data:    data,
 	}
 
 	return res
 }
 
 func BuildErrorResponse(message string, err string, data interface{}) Response {
-	splittedError :=strings.Split(err, "\n")
+	splittedError := strings.Split(err, "\n")
 	res := Response{
-		Status: false,
+		Status:  false,
 		Message: message,
-		Error: splittedError,
-		Data: data,
+		Error:   splittedError,
+		Data:    data,
 	}
 
 	return res

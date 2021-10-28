@@ -47,7 +47,7 @@ func (service *authService) IsDuplicateEmail(email string) bool {
 }
 
 func (service *authService) VerifyCredential(email string, password string) interface{} {
-	res := service.userRepository.VerifyCredential(email, password)
+	res := service.userRepository.VerifyCredential(email)
 	if v, ok := res.(entities.User); ok {
 		comparedPassword := comparedPassword(v.Password, []byte(password))
 		if v.Email == email && comparedPassword {

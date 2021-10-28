@@ -10,7 +10,7 @@ import (
 type UserRepository interface {
 	InsertUser(user entities.User) entities.User
 	UpdateUser(user entities.User) entities.User
-	VerifyCredential(email string, password string) interface{}
+	VerifyCredential(email string) interface{}
 	IsDuplicateEmail(email string) (tx *gorm.DB)
 	FindByEmail(email string) entities.User
 	ProfileUser(userID string) entities.User
@@ -37,7 +37,7 @@ func (db *userConnection) UpdateUser(user entities.User) entities.User {
 		user.Password = hashAndSalt([]byte(user.Password))
 	} else {
 		var tempUser entities.User
-		db.connection.Find(&tempUser, user.Id)
+		db.connection.Find(&tempUser, user.ID)
 		user.Password = tempUser.Password
 	}
 
@@ -45,7 +45,7 @@ func (db *userConnection) UpdateUser(user entities.User) entities.User {
 	return user
 }
 
-func (db *userConnection) VerifyCredential(email string, password string) interface{} {
+func (db *userConnection) VerifyCredential(email string) interface{} {
 	var user entities.User
 	res := db.connection.Where("email = ?", email).Take(&user)
 	if res.Error == nil {
